@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario & Catálogo | Monolito & API DRF</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f7fafc;
+            color: #2d3748;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .header {
+            background: #ffffff;
+            padding: 28px 32px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 24px;
+            border-left: 6px solid #3182ce;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            color: #1a202c;
+            font-size: 26px;
+        }
+        p.subtitle {
+            margin: 0;
+            color: #718096;
+            font-size: 15px;
+        }
+        .api-banner {
+            background: #ebf8ff;
+            border: 1px solid #bee3f8;
+            border-radius: 10px;
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .api-banner-text {
+            color: #2b6cb0;
+            font-size: 14px;
+        }
+        .api-link-btn {
+            background: #3182ce;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .api-link-btn:hover {
+            background: #2b6cb0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        th, td {
+            padding: 16px 20px;
+            text-align: left;
+        }
+        th {
+            background: #edf2f7;
+            color: #4a5568;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tr:not(:last-child) td {
+            border-bottom: 1px solid #edf2f7;
+        }
+        .stock-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 13px;
+            background: #e6fffa;
+            color: #234e52;
+            border: 1px solid #b2f5ea;
+        }
+        .stock-low {
+            background: #fffaf0;
+            color: #744210;
+            border: 1px solid #feebc8;
+        }
+        .btn-buy {
+            display: inline-block;
+            background: #38a169;
+            color: white;
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .btn-buy:hover {
+            background: #2f855a;
+        }
+        .footer-note {
+            margin-top: 25px;
+            text-align: center;
+            font-size: 13px;
+            color: #a0aec0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Inventario General de Libros</h1>
+            <p class="subtitle">Tutorial 03: Arquitectura de Software - Demostración de Reutilización del Service Layer (HTML vs API Headless)</p>
+        </div>
+
+        <div class="api-banner">
+            <div class="api-banner-text">
+                🚀 <strong>Backend Headless activo:</strong> Puede enviar peticiones <code>POST /api/v1/comprar/</code> y consultar <code>GET /api/v1/libros/</code>.
+            </div>
+            <div>
+                <a class="api-link-btn" href="/api/v1/libros/" target="_blank">Ver JSON en DRF</a>
+                <a class="api-link-btn" href="/api/v1/comprar/" target="_blank" style="background:#4a5568; margin-left: 8px;">Probar POST DRF</a>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Título del Libro</th>
+                    <th>Precio Base</th>
+                    <th>Stock Actual</th>
+                    <th>Acción (Monolito HTML)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for libro in libros %}
+                <tr>
+                    <td><strong>#{{ libro.id }}</strong></td>
+                    <td>{{ libro.titulo }}</td>
+                    <td>${{ libro.precio }}</td>
+                    <td>
+                        <span class="stock-pill {% if libro.stock_actual <= 3 %}stock-low{% endif %}" id="stock-libro-{{ libro.id }}">
+                            {{ libro.stock_actual }} unidades
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/compra/{{ libro.id }}/" class="btn-buy">Comprar vía HTML</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No hay libros registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="footer-note">
+            Arquitectura de Software 2026 - Prof. Nicolás Ramírez Vélez | Estudiante: Adyuer Ojeda Badel
+        </div>
+    </div>
+</body>
+</html>
