@@ -16,16 +16,14 @@ echo ">>> 3. Habilitando e iniciando Docker..."
 sudo systemctl enable --now docker
 sudo usermod -a -G docker $USER
 
-echo ">>> 4. Verificando Docker Compose y Buildx..."
-if ! docker buildx version >/dev/null 2>&1; then
-    echo "Instalando Docker Buildx..."
-    sudo mkdir -p /usr/local/lib/docker/cli-plugins /usr/libexec/docker/cli-plugins ~/.docker/cli-plugins
-    BUILDX_URL="https://github.com/docker/buildx/releases/download/v0.17.1/buildx-v0.17.1.linux-amd64"
-    sudo curl -sSL "$BUILDX_URL" -o /usr/local/lib/docker/cli-plugins/docker-buildx
-    sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
-    sudo cp /usr/local/lib/docker/cli-plugins/docker-buildx /usr/libexec/docker/cli-plugins/docker-buildx
-    cp /usr/local/lib/docker/cli-plugins/docker-buildx ~/.docker/cli-plugins/docker-buildx 2>/dev/null || true
-fi
+echo ">>> 4. Instalando Docker Buildx v0.17.1..."
+sudo mkdir -p /usr/libexec/docker/cli-plugins /usr/local/lib/docker/cli-plugins ~/.docker/cli-plugins
+BUILDX_URL="https://github.com/docker/buildx/releases/download/v0.17.1/buildx-v0.17.1.linux-amd64"
+sudo curl -sSL "$BUILDX_URL" -o /usr/libexec/docker/cli-plugins/docker-buildx
+sudo chmod +x /usr/libexec/docker/cli-plugins/docker-buildx
+sudo cp -f /usr/libexec/docker/cli-plugins/docker-buildx /usr/local/lib/docker/cli-plugins/docker-buildx
+mkdir -p ~/.docker/cli-plugins
+cp -f /usr/libexec/docker/cli-plugins/docker-buildx ~/.docker/cli-plugins/docker-buildx 2>/dev/null || true
 
 if ! docker compose version >/dev/null 2>&1; then
     echo "Instalando Docker Compose standalone..."
