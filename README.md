@@ -41,7 +41,7 @@ Ejecuta en tu terminal local:
 git add .
 git commit -m "feat: dockerizacion y configuracion de despliegue AWS Tutorial 04"
 git branch -M main
-git remote add origin https://github.com/TU_USUARIO/TU_REPOSITORIO.git
+git remote add origin https://github.com/AdyuerHack/tutorial04-docker-aws.git
 git push -u origin main
 ```
 
@@ -64,8 +64,8 @@ git push -u origin main
 1. En el listado de instancias de EC2, selecciona `Servidor-Django` y haz clic en **Connect** -> pestaña **EC2 Instance Connect** -> **Connect**.
 2. En la terminal que se abre en el navegador, clona tu repositorio y ejecuta el script automático:
    ```bash
-   git clone https://github.com/TU_USUARIO/TU_REPOSITORIO.git
-   cd TU_REPOSITORIO
+   git clone https://github.com/AdyuerHack/tutorial04-docker-aws.git
+   cd tutorial04-docker-aws
    bash deploy_aws.sh
    ```
    *(El script `deploy_aws.sh` actualiza el sistema, instala Docker, inicia los contenedores con Docker Compose y ejecuta las migraciones automáticamente).*
